@@ -1,4 +1,3 @@
-const body = document.querySelector('.body');
 const booksSection = document.querySelector('.books');
 const form = document.querySelector('#form');
 const title = document.querySelector('#book-title');
@@ -18,6 +17,8 @@ const getBooks = () => {
 
 books = getBooks();
 
+// remove book from local storage
+
 // display books from local storage
 
 const showBooks = () => {
@@ -34,6 +35,14 @@ const showBooks = () => {
     booksSection.appendChild(bookDiv);
   });
 
+  function removeBook(event) {
+    const { index } = event.target.dataset;
+    getBooks();
+    books = books.filter((book, i) => i !== Number(index));
+    localStorage.setItem('books', JSON.stringify(books));
+    showBooks();
+  }
+
   const rBook = document.querySelectorAll('.delete');
 
   rBook.forEach((remove) => {
@@ -42,6 +51,7 @@ const showBooks = () => {
 };
 
 showBooks();
+
 // add book to local storage
 
 const addBook = (book) => {
@@ -53,19 +63,12 @@ const addBook = (book) => {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
+  const { value: titleValue } = title;
+  const { value: authorValue } = author;
   const book = {
     index: books.length + 1,
-    title: title.value,
-    author: author.value,
+    title: titleValue,
+    author: authorValue,
   };
   addBook(book);
 });
-
-function removeBook(event) {
-  const index = event.target.dataset.index;
-  getBooks();
-  books = books.filter((book, i) => i !== Number(index));
-  localStorage.setItem('books', JSON.stringify(books));
-  showBooks();
-}
-
