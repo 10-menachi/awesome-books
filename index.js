@@ -31,6 +31,7 @@ const showBooks = () => {
       <h3>${book.title}</h3>
       <p>${book.author}</p>
       <button data-index="${index}" class="btn-btn-danger delete">Delete</button>
+      <hr>
     `;
     booksSection.appendChild(bookDiv);
   });
