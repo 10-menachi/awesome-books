@@ -42,3 +42,30 @@ const showBooks = () => {
 };
 
 showBooks();
+// add book to local storage
+
+const addBook = (book) => {
+  getBooks();
+  books.push(book);
+  localStorage.setItem('books', JSON.stringify(books));
+  showBooks();
+};
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const book = {
+    index: books.length + 1,
+    title: title.value,
+    author: author.value,
+  };
+  addBook(book);
+});
+
+function removeBook(event) {
+  const index = event.target.dataset.index;
+  getBooks();
+  books = books.filter((book, i) => i !== Number(index));
+  localStorage.setItem('books', JSON.stringify(books));
+  showBooks();
+}
+
