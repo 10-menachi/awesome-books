@@ -5,21 +5,112 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Awesome Books</title>
   </head>
   <body class="body">
-    <nav>
-      <h1>Awesome Books</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light pb-5">
+      <div class="container">
+        <a class="navbar-brand" href="#">Awesome Books</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link list" href="#">List</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link add" href="#" id="add-book">Add New</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link contact-nav" href="#" id="display-books"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
-    <section class="books"></section>
-    <form id="form">
-      <p></p>
-      <input id="book-title" type="text" placeholder="Title" required />
-      <p></p>
-      <input id="author" type="name" placeholder="Author" required />
-      <br />
-      <button type="submit" id="add">Add</button>
-    </form>
-    <script src="index.js"></script>
+
+    <section class="w-100 d-flex align-items-center justify-content-center">
+      <section class="books">
+        <div class="container">
+          <table class="table table-striped mt-5">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="book-list"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <form id="form" class="w-75 p-5 text-center add-book">
+        <input
+          id="book-title"
+          type="text"
+          placeholder="Title"
+          class="form-control"
+          required
+        />
+        <br />
+        <input
+          id="author"
+          type="name"
+          placeholder="Author"
+          class="form-control"
+          required
+        />
+        <br />
+        <button type="submit" id="add" class="btn btn-success w-25">Add</button>
+      </form>
+    </section>
+
+    <section id="contact" class="contact contact-div">
+      <div class="container d-flex justify-content-center my-5">
+        <div class="contact-details mx-5">
+          <h1 class="display-4 text-center mt-5 text-secondary font-weight-900">
+            Contact Information
+          </h1>
+          <div class="container">
+            <p>Do you have any questions or you just want say hello?</p>
+            <p>You can reach out to us!</p>
+            <ul>
+              <li>Email: <strong>abc123@gmail.com</strong></li>
+              <li>Phone Number: <strong>+123456789</strong></li>
+              <li>Address: <strong>123 045</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer
+      class="fixed-bottom footer bg-dark text-center text-white py-3 w-100"
+    >
+      <div class="container">
+        <h3>Copyright &copy; Awesome Books</h3>
+      </div>
+    </footer>
+
+    <script src="index.js" type="module"></script>
   </body>
 </html>
