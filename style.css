@@ -1,3 +1,8 @@
 body {
   font-family: 'Open Sans', sans-serif;
 }
+
+.contact,
+.books {
+  display: none;
+}
