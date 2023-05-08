@@ -6,3 +6,11 @@ body {
 .books {
   display: none;
 }
+
+.time-and-date {
+  font-size: 1.5em;
+  font-weight: 300;
+  margin: 1rem;
+  padding: 0;
+  text-align: center;
+}

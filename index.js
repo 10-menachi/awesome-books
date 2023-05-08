@@ -1,72 +1,25 @@
-class Book {
-  constructor(title, author) {
-    this.title = title;
-    this.author = author;
-    this.books = [];
-  }
+// eslint-disable-next-line import/extensions
+import { DateTime } from './node_modules/luxon/src/luxon.js';
+// eslint-disable-next-line import/extensions
+import Book from './book.js';
+// eslint-disable-next-line import/extensions
+import Library from './library.js';
 
-  getBooks() {
-    let savedBooks = [];
-    if (localStorage.getItem('books')) {
-      savedBooks = JSON.parse(localStorage.getItem('books'));
-    }
-    this.books = savedBooks;
-    return savedBooks;
-  }
-
-  showBooks() {
-    this.getBooks();
-    const bookList = document.querySelector('#book-list');
-    bookList.innerHTML = '';
-    this.books.forEach((book, index) => {
-      const row = document.createElement('tr');
-      row.classList.add('w-100');
-      row.innerHTML = `
-        <td>${book.title}</td>
-        <td>${book.author}</td>
-        <td><button data-index="${index}" class="btn-btn-danger delete">Delete</button></td>
-      `;
-      bookList.appendChild(row);
-    });
-
-    const rBook = document.querySelectorAll('.delete');
-
-    rBook.forEach((remove) => {
-      remove.addEventListener('click', this.removeBook);
-    });
-  }
-
-  addBook(book) {
-    this.getBooks();
-    this.books.push(book);
-    localStorage.setItem('books', JSON.stringify(this.books));
-    this.showBooks();
-  }
-
-  removeBook = (event) => {
-    const { index } = event.target.dataset;
-    this.getBooks();
-    this.books = this.books.filter((book, i) => i !== Number(index));
-    localStorage.setItem('books', JSON.stringify(this.books));
-    this.showBooks();
-  };
-}
-
+const booksSection = document.querySelector('.books');
 const form = document.querySelector('#form');
 const title = document.querySelector('#book-title');
 const author = document.querySelector('#author');
 
-const book = new Book();
-
-book.showBooks();
+const library = new Library(booksSection);
+library.books = library.getBooks();
+library.showBooks();
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  const newBook = {
-    title: title.value,
-    author: author.value,
-  };
-  book.addBook(newBook);
+  const { value: titleValue } = title;
+  const { value: authorValue } = author;
+  const book = new Book(library.books.length + 1, titleValue, authorValue);
+  library.addBook(book);
   form.reset();
 });
 
@@ -87,7 +40,7 @@ const showContact = () => {
 const showBooks = () => {
   contact.style.display = 'none';
   books.style.display = 'block';
-  form.style.display = 'none';
+  addBook.style.display = 'none';
 };
 
 const showAddBook = () => {
@@ -99,3 +52,6 @@ const showAddBook = () => {
 listNav.addEventListener('click', showBooks);
 addNav.addEventListener('click', showAddBook);
 contactNav.addEventListener('click', showContact);
+
+const timeAndDate = document.querySelector('.time-and-date');
+timeAndDate.innerHTML = DateTime.now().toLocaleString(DateTime.DATETIME_MED);
