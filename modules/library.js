@@ -1,51 +1,53 @@
 class Library {
-  constructor(booksSection) {
-    this.booksSection = booksSection;
+  constructor(bookSection, title, author) {
+    this.bookSection = bookSection;
+    this.title = title;
+    this.author = author;
     this.books = [];
   }
 
-  getBooks = () => (localStorage.getItem('books')
-    ? JSON.parse(localStorage.getItem('books'))
-    : []);
-
-  saveBooks = () => {
-    localStorage.setItem('books', JSON.stringify(this.books));
+  getBooks = () => {
+    let savedBooks = [];
+    if (localStorage.getItem('books')) {
+      savedBooks = JSON.parse(localStorage.getItem('books'));
+    }
+    return savedBooks;
   };
 
-  addBook = (book) => {
-    this.books.push(book);
-    this.saveBooks();
-    this.showBooks();
-  };
-
-  removeBook = (index) => {
+  removeBook = (event) => {
+    const { index } = event.target.dataset;
+    this.getBooks();
     this.books = this.books.filter((book, i) => i !== Number(index));
-    this.saveBooks();
+    localStorage.setItem('books', JSON.stringify(this.books));
     this.showBooks();
   };
 
   showBooks = () => {
-    this.booksSection.innerHTML = '';
+    this.getBooks();
+    const bookList = document.querySelector('#book-list');
+    bookList.innerHTML = '';
     this.books.forEach((book, index) => {
-      const bookDiv = document.createElement('div');
-      bookDiv.classList.add('book');
-      bookDiv.innerHTML = `
-        <h3>${book.title}</h3>
-        <p>${book.author}</p>
-        <button data-index="${index}" class="btn-btn-danger delete">Delete</button>
-        <hr>
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td><button data-index="${index}" class="btn-btn-danger delete">Delete</button></td>
       `;
-      this.booksSection.appendChild(bookDiv);
+      bookList.appendChild(row);
     });
 
     const rBook = document.querySelectorAll('.delete');
+
     rBook.forEach((remove) => {
-      remove.addEventListener('click', (event) => {
-        const { index } = event.target.dataset;
-        this.removeBook(index);
-      });
+      remove.addEventListener('click', this.removeBook);
     });
   };
-}
 
+  addBook = (book) => {
+    this.getBooks();
+    this.books.push(book);
+    localStorage.setItem('books', JSON.stringify(this.books));
+    this.showBooks();
+  };
+}
 export default Library;

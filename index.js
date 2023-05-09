@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/extensions
 import { DateTime } from './node_modules/luxon/src/luxon.js';
 // eslint-disable-next-line import/extensions
-import Book from './book.js';
+import Book from './modules/book.js';
 // eslint-disable-next-line import/extensions
-import Library from './library.js';
+import Library from './modules/library.js';
 
 const booksSection = document.querySelector('.books');
 const form = document.querySelector('#form');
