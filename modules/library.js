@@ -6,25 +6,22 @@ class Library {
     this.books = [];
   }
 
-  getBooks = () => {
-    let savedBooks = [];
+  getBooks = (savedBooks = []) => {
     if (localStorage.getItem('books')) {
       savedBooks = JSON.parse(localStorage.getItem('books'));
     }
     return savedBooks;
   };
 
-  removeBook = (event) => {
-    const { index } = event.target.dataset;
+  removeBook = (event, { index } = event.target.dataset) => {
     this.getBooks();
-    this.books = this.books.filter((book, i) => i !== Number(index));
+    this.books = this.books.filter((book, number) => number !== Number(index));
     localStorage.setItem('books', JSON.stringify(this.books));
     this.showBooks();
   };
 
-  showBooks = () => {
+  showBooks = (bookList = document.querySelector('#book-list')) => {
     this.getBooks();
-    const bookList = document.querySelector('#book-list');
     bookList.innerHTML = '';
     this.books.forEach((book, index) => {
       const row = document.createElement('tr');
@@ -34,12 +31,7 @@ class Library {
         <td><button data-index="${index}" class="btn-btn-danger delete">Delete</button></td>
       `;
       bookList.appendChild(row);
-    });
-
-    const rBook = document.querySelectorAll('.delete');
-
-    rBook.forEach((remove) => {
-      remove.addEventListener('click', this.removeBook);
+      this.setUpDeleteButtons();
     });
   };
 
@@ -49,5 +41,11 @@ class Library {
     localStorage.setItem('books', JSON.stringify(this.books));
     this.showBooks();
   };
+
+  setUpDeleteButtons = (deleteButtons = document.querySelectorAll('.delete')) => {
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', this.removeBook);
+    });
+  }
 }
 export default Library;
